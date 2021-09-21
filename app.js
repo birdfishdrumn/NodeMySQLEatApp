@@ -31,13 +31,11 @@ app.use("/test", async(req, res, next) => {
     let data;
 
     try {
-        await MYSQLClient.connect();
-        data = await MYSQLClient.query(select, [3]);
+        data = await MYSQLClient.executeQuery(await select, [3]);
+
         console.log(data);
     } catch (err) {
         next(err);
-    } finally {
-        // await MYSQLClient.end();
     }
 
     res.end("OK");
