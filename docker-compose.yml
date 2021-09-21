@@ -12,8 +12,8 @@ services:
             TZ: "Asia/Tokyo"
         command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
         volumes:
-            - "/Users/shinoharamichihiro/data:/var/lib/mysql"
-            - "/Users/shinoharamichihiro/conf:/etc/mysql/conf.d"
-            - "/Users/shinoharamichihiro/initdb:/docker-entrypoint-initdb.d"
+            - "./data:/var/lib/mysql"
+            - "./conf:/etc/mysql/conf.d"
+            - "./initdb.d:/docker-entrypoint-initdb.d"
         ports:
             - 3307:3306

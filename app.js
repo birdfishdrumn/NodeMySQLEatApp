@@ -23,60 +23,26 @@ app.use("/", require("./routes/index.js"));
 // set application log
 app.use(applicationLogger());
 
-const mysql = require("mysql2");
-// app.use("/test", async(req, res, next) => {
-//     const { promisify } = require("util");
-//     // const path = require("path");
-//     // const { sql } = require("@garafu/mysql-fileloader")({ root: path.join(__dirname, "./lib/database/sql") });
-//     const config = require("./config/mysql.config.js");
-//     const mysql = require("mysql2");
-//     const con = mysql.createConnection({
-//         host: config.HOST,
-//         port: config.PORT,
-//         user: config.USERNAME,
-//         password: config.PASSWORD,
-//         database: config.DATABASE
-//     });
-//     const client = {
-//         connect: promisify(con.connect).bind(con),
-//         query: promisify(con.query).bind(con),
-//         end: promisify(con.end).bind(con)
-//     };
-//     // let data;
+const select = "SELECT * FROM t_shop WHERE id = 1";
 
-//     try {
-//         await client.connect();
-//         // data = await client.query(await sql("SELECT_SHOP_BASIC_BY_ID"));
-//         console.log(client.query);
-//     } catch (err) {
-//         next(err);
-//     } finally {
-//         await client.end();
-//     }
+// const mysql = require("mysql2");
+app.use("/test", async(req, res, next) => {
+    const { MYSQLClient } = require("./lib/client");
+    let data;
 
-//     res.end("OK");
-// });
-const config = require("./config/mysql.config.js");
+    try {
+        await MYSQLClient.connect();
+        data = await MYSQLClient.query(select);
+        console.log(data);
+    } catch (err) {
+        next(err);
+    } finally {
+        await MYSQLClient.end();
+    }
 
-
-
-const connection = mysql.createConnection({
-    host: config.HOST,
-    port: config.PORT,
-    user: config.USERNAME,
-    password: config.PASSWORD,
-    database: config.DATABASE
+    res.end("OK");
 });
 
-app.get("/test", (req, res) => {
-    connection.query(
-        "SELECT * FROM t_shop",
-        (error, results) => {
-            console.log(results);
-            res.send("huuta");
-        }
-    );
-});
 
 app.listen(PORT, () => {
     logger.application.info(`listening ${PORT}`);
