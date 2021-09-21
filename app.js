@@ -23,21 +23,21 @@ app.use("/", require("./routes/index.js"));
 // set application log
 app.use(applicationLogger());
 
-const select = "SELECT * FROM t_shop WHERE id = 1";
+const select = "SELECT * FROM t_shop WHERE id = ?";
 
-// const mysql = require("mysql2");
+
 app.use("/test", async(req, res, next) => {
     const { MYSQLClient } = require("./lib/client");
     let data;
 
     try {
         await MYSQLClient.connect();
-        data = await MYSQLClient.query(select);
+        data = await MYSQLClient.query(select, [3]);
         console.log(data);
     } catch (err) {
         next(err);
     } finally {
-        await MYSQLClient.end();
+        // await MYSQLClient.end();
     }
 
     res.end("OK");
