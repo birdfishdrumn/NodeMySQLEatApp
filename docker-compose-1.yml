@@ -1,19 +1,19 @@
 version: "3"
 services:
-  mysql:
-    image: mysql:latest
-    container_name: initdb
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: test_database
-      MYSQL_USER: michi
-      MYSQL_PASSWORD: root
-      TZ: "Asia/Tokyo"
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
-    volumes:
-      - "./data:/var/lib/mysql"
-      - "./conf:/etc/mysql/conf.d"
-      - "./initdb.d:/docker-entrypoint-initdb.d"
-    ports:
-      - 3308:3306
+    mysql:
+        image: mysql:latest
+        container_name: initdb
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: test_database
+            MYSQL_USER: michi
+            MYSQL_PASSWORD: root
+            TZ: "Asia/Tokyo"
+        command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+        volumes:
+            - "./data:/var/lib/mysql"
+            - "./conf:/etc/mysql/conf.d"
+            - "./initdb.d:/docker-entrypoint-initdb.d"
+        ports:
+            - 3308:3306

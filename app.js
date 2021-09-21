@@ -11,6 +11,14 @@ console.log(`listening Port ${PORT}`);
 // ejsを使えるようにするcode
 app.set("view engine", "ejs");
 app.disable("x-powered-by");
+
+// Exports global method to view engine
+app.use((req, res, next) => {
+    res.locals.moment = require("moment");
+    res.locals.padding = require("./lib/math/math.js").padding;
+    next();
+});
+
 // 静的ファイルの読み込み
 app.use(favicon(path.join(__dirname, "/public/favicon.ico")));
 app.use("/public", express.static(path.join(__dirname, "/public")));
@@ -24,7 +32,6 @@ app.use("/", require("./routes/index.js"));
 app.use(applicationLogger());
 
 const select = "SELECT * FROM t_shop WHERE id = ?";
-
 
 app.use("/test", async(req, res, next) => {
     const { MYSQLClient } = require("./lib/client");
@@ -40,7 +47,6 @@ app.use("/test", async(req, res, next) => {
 
     res.end("OK");
 });
-
 
 app.listen(PORT, () => {
     logger.application.info(`listening ${PORT}`);
